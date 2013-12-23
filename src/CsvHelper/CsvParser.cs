@@ -20,17 +20,17 @@ namespace CsvHelper
 	/// </summary>
 	public class CsvParser : ICsvParser
 	{
-		private bool disposed;
-		private TextReader reader;
-		private readonly char[] readerBuffer;
-	    private int readerBufferPosition;
-		private int charsRead;
-        private string[] record;
-        private int currentRow;
-        private readonly CsvConfiguration configuration;
-        private char? cPrev;
-        private char c = '\0';
-        private bool read;
+		protected bool disposed;
+        protected TextReader reader;
+        protected readonly char[] readerBuffer;
+        protected int readerBufferPosition;
+        protected int charsRead;
+        protected string[] record;
+        protected int currentRow;
+        protected readonly CsvConfiguration configuration;
+        protected char? cPrev;
+        protected char c = '\0';
+        protected bool read;
 
 		/// <summary>
 		/// Gets the configuration.

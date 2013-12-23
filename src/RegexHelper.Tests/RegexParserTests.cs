@@ -14,7 +14,7 @@ namespace RegexHelper.Tests
     [TestClass]
     public class RegexParserTests
     {
-        private const string CEDictPattern = @"([^\s]+)\s+([^\s]+)\s+\[?([^\]]+)]?\s+(.*)$";
+        private const string CEDictPattern = @"([^\s]+)\s+([^\s]+)\s+\[([^\]]+)\]\s+(.*)$";
         
         [TestMethod]
         public void CEDictParseTest()
