@@ -23,14 +23,14 @@ namespace CsvHelper
 		private bool disposed;
 		private TextReader reader;
 		private readonly char[] readerBuffer;
-		private int readerBufferPosition;
+	    private int readerBufferPosition;
 		private int charsRead;
-		private string[] record;
-		private int currentRow;
-		private readonly CsvConfiguration configuration;
-		private char? cPrev;
-		private char c = '\0';
-		private bool read;
+        private string[] record;
+        private int currentRow;
+        private readonly CsvConfiguration configuration;
+        private char? cPrev;
+        private char c = '\0';
+        private bool read;
 
 		/// <summary>
 		/// Gets the configuration.
@@ -63,7 +63,7 @@ namespace CsvHelper
 		/// <summary>
 		/// Gets the raw row for the current record that was parsed.
 		/// </summary>
-		public virtual string RawRecord { get; private set; }
+		public virtual string RawRecord { get; protected set; }
 
 		/// <summary>
 		/// Creates a new parser using the given <see cref="StreamReader" />.
