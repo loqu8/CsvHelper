@@ -12,7 +12,15 @@ using System.Collections.Generic;
 
 namespace RegexHelper.Tests
 {
-
+    // TODO: Add tests for ZDT, Pleco, Skritter, Memrize?, or any other
+    
+    // The general RegexParser handles single layer (meaning no nesting) regex
+    // if you want nesting, we have to be more fancy, as in the fancycedictparser
+    // I'm guessing the regular is sufficient for almost all our file formats
+    // currently RegexParser does not handle escaping, or quotes, or anything 
+    // like that, that means that \r \n could not be embedded in definitions
+    // but we can revisit this if we find datasets with this issue
+    // the current goal is to get things going!
 
     [TestClass]
     public class RegexParserTests
