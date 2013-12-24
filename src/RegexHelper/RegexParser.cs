@@ -23,11 +23,7 @@ namespace CsvHelper.Regex
             string field = null;
 			var fieldStartPosition = readerBufferPosition;
 			var rawFieldStartPosition = readerBufferPosition;
-			var inQuotes = false;
-			var fieldIsEscaped = false;
 			var inComment = false;
-			var inDelimiter = false;
-			var delimiterPosition = 0;
 			var prevCharWasDelimiter = false;
 			var recordPosition = 0;
 			record = new string[FieldCount];
