@@ -6,8 +6,8 @@ namespace CsvHelper.Regex
 {
     public class RegexParser : CsvParser
     {
-        private string pattern;
-        private System.Text.RegularExpressions.Regex regex;
+        protected string pattern;
+        protected System.Text.RegularExpressions.Regex regex;
 
 //        public RegexParser( TextReader reader ) : this( reader, new RegexConfiguration() ) {}
 
@@ -101,20 +101,34 @@ namespace CsvHelper.Regex
             {
                 RawRecord += new string(readerBuffer, rawFieldStartPosition, readerBufferPosition - rawFieldStartPosition);
 
-                var results = new List<string>();
-                var match = regex.Match(RawRecord);
-                if (match.Success && match.Groups.Count > 1)
-                {
-                    for (int i = 1; i < match.Groups.Count; i++)
-                    {
-                        results.Add(match.Groups[i].Captures[0].Value);
-                    }                    
-                }
+                record = ParseToRecord(RawRecord);
+            }
 
-                if (results.Count > 0)
+            return record;
+        }
+
+        /// <summary>
+        /// Default ParseToRecord handles a single layer, may need a custom one if the Regex is complex
+        /// </summary>
+        /// <param name="raw"></param>
+        /// <returns></returns>
+        protected virtual string[] ParseToRecord(string raw)
+        {
+            string[] record = null;
+            
+            var results = new List<string>();
+            var match = regex.Match(RawRecord);
+            if (match.Success && match.Groups.Count > 1)
+            {
+                for (int i = 1; i < match.Groups.Count; i++)
                 {
-                    record = results.ToArray();
+                    results.Add(match.Groups[i].Captures[0].Value);
                 }
+            }
+
+            if (results.Count > 0)
+            {
+                record = results.ToArray();
             }
 
             return record;

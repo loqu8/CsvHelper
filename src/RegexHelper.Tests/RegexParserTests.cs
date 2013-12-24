@@ -8,20 +8,56 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
 using CsvHelper.Regex;
+using System.Collections.Generic;
 
 namespace RegexHelper.Tests
 {
+
+
     [TestClass]
     public class RegexParserTests
     {
         // See http://msdn.microsoft.com/en-us/library/h5181w5w(v=vs.110).aspx - end with \r?$
         private const string CEDictPattern = @"([^\s]+)\s+([^\s]+)\s+\[([^\]]+)\]\s+([^\r^\n]+)\r?$";
-        
+ 
         [TestMethod]
-        public void CEDictParseTest()
+        public void CEDictFancyParseTest()
+        {
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream))
+            using (var reader = new StreamReader(stream))
+            using (var parser = new FancyCEDictParser(reader))
+            {
+                writer.Write("中國 中国 [Zhong1 guo2] /China/Middle Kingdom/\r\n");
+                writer.Write("中國 [Zhong1 guo2] /China/Middle Kingdom/\r\n");
+                writer.Flush();
+                stream.Position = 0;
+
+                var row = parser.Read();
+                Assert.IsNotNull(row);
+                Assert.AreEqual(4, row.Length);
+                Assert.AreEqual("中國", row[0]);
+                Assert.AreEqual("中国", row[1]);
+                Assert.AreEqual("Zhong1 guo2", row[2]);
+                Assert.AreEqual("/China/Middle Kingdom/", row[3]);
+
+                row = parser.Read();
+                Assert.IsNotNull(row);
+                Assert.AreEqual(4, row.Length);
+                Assert.AreEqual("中國", row[0]);      
+                Assert.AreEqual("", row[1]);
+                Assert.AreEqual("Zhong1 guo2", row[2]);
+                Assert.AreEqual("/China/Middle Kingdom/", row[3]);
+
+                Assert.IsNull(parser.Read());
+            }
+        }
+
+
+        [TestMethod]
+        public void CEDictSimpleParseTest()
         {
             var config = new RegexConfiguration(CEDictPattern);
-
 
             using (var stream = new MemoryStream())
             using (var writer = new StreamWriter(stream))
@@ -37,7 +73,7 @@ namespace RegexHelper.Tests
                 writer.Flush();
                 stream.Position = 0;
 
-                var row = parser.Read();            // there is a problem here where the /r is picked up
+                var row = parser.Read();
                 Assert.IsNotNull(row);
                 Assert.AreEqual(4, row.Length);
                 Assert.AreEqual("中國", row[0]);
