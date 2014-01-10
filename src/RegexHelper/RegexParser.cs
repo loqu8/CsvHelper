@@ -38,7 +38,11 @@ namespace CsvHelper.Regex
                 }
 
                 var fieldLength = readerBufferPosition - fieldStartPosition;
-                read = GetChar(out c, ref fieldStartPosition, ref rawFieldStartPosition, ref field, prevCharWasDelimiter, ref recordPosition, ref fieldLength);
+
+                read = GetChar(out c, 
+                    ref fieldStartPosition, ref rawFieldStartPosition, ref field, prevCharWasDelimiter, 
+                    ref recordPosition, ref fieldLength,
+                    inComment);
                 if (!read)
                 {
                     break;
